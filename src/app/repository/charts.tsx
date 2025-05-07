@@ -1,5 +1,5 @@
-import RepositoryService from '@/services/repository.service';
-import React, { useEffect, useState } from 'react';
+import RepositoryService from "@/services/repository.service";
+import React, { useEffect, useState } from "react";
 
 interface ChartsProps {
   name: string;
@@ -18,9 +18,12 @@ export const Charts: React.FC<ChartsProps> = ({ name }) => {
   return (
     <>
       {data.map((d) => {
+        console.log(d);
         return (
           <div>
-            {d.name} : {d.version}
+            <a href={`/repository/${d.name}`}>
+              {d.name} : {d.version}
+            </a>
           </div>
         );
       })}

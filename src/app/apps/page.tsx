@@ -1,19 +1,19 @@
-'use client';
-import { Button } from '@/components/ui/button';
+"use client";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import AppService from '@/services/apps.service';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { InstalledApp } from '../api/apps/app.entity';
+} from "@/components/ui/card";
+import { InstalledApp } from "@/interfaces";
+import AppService from "@/services/apps.service";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Apps = () => {
-  const [datas, setDatas] = useState<any[]>([]);
+  const [datas, setDatas] = useState<InstalledApp[]>([]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -38,7 +38,7 @@ const Apps = () => {
               <CardTitle>
                 <div className="flex justify-between">
                   <span>
-                    {' '}
+                    {" "}
                     {data.name} ( {data.chart} )
                   </span>
 
@@ -56,8 +56,8 @@ const Apps = () => {
               </Link>
               <Button className="mx-2"> 수정 </Button>
               <Button onClick={() => handleDelete(data.name, data.namespace)}>
-                {' '}
-                삭제{' '}
+                {" "}
+                삭제{" "}
               </Button>
             </CardFooter>
           </Card>

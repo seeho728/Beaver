@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 export const RepositorySchema = z.object({
   name: z.string(),
   url: z.string().url(),
@@ -7,3 +7,10 @@ export const RepositorySchema = z.object({
 });
 
 export type Repository = z.infer<typeof RepositorySchema>;
+
+export interface HelmAppVersion {
+  name: string;
+  version: string;
+  app_version: string;
+  description: string;
+}

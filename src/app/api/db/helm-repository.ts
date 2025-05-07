@@ -1,6 +1,6 @@
-import { Repository } from '@/interfaces';
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { Repository } from "@/interfaces";
+import { exec } from "child_process";
+import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
@@ -25,8 +25,8 @@ export class HelmRepository {
   }
 
   static async list() {
-    const { stdout } = await execAsync('helm repo list');
-    const lines = stdout.trim().split('\n').slice(1);
+    const { stdout } = await execAsync("helm repo list");
+    const lines = stdout.trim().split("\n").slice(1);
 
     return lines.map((line) => {
       const [name, url] = line.trim().split(/\s+/);
@@ -38,5 +38,13 @@ export class HelmRepository {
     const { stdout } = await execAsync(`helm search repo ${name}/ -o json`);
 
     return JSON.parse(stdout);
+  }
+
+  static async listVersions(name: string, app: string) {
+    const { stdout } = await execAsync(
+      `helm search repo ${name}/${app} --versions -o json`
+    );
+
+    return JSON.parse(stdout).filter((item) => item.name === `${name}/${app}`);
   }
 }
