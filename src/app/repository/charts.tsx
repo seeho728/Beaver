@@ -1,24 +1,15 @@
-import RepositoryService from "@/services/repository.service";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { HelmRepository } from "../datas/helm.repository";
 
 interface ChartsProps {
   name: string;
 }
-export const Charts: React.FC<ChartsProps> = ({ name }) => {
-  const [data, setDatas] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await RepositoryService.getCharts(name);
-      setDatas(res.data);
-    };
-    fetch();
-  }, []);
+export const Charts: React.FC<ChartsProps> = async ({ name }) => {
+  const data = await HelmRepository.listCharts(name);
 
   return (
     <>
       {data.map((d) => {
-        console.log(d);
         return (
           <div>
             <a href={`/repository/${d.name}`}>

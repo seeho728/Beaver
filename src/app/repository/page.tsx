@@ -1,11 +1,10 @@
-'use client';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,32 +12,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Repository } from '@/interfaces';
-import RepositoryService from '@/services/repository.service';
-import { useEffect, useState } from 'react';
-import { Charts } from './charts';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { HelmRepository } from "../datas/helm.repository";
+import { Charts } from "./charts";
 
-const RepositoryPage = () => {
-  const [datas, setDatas] = useState<Repository[]>([]);
+const RepositoryPage = async () => {
+  const name = "",
+    repository = "",
+    username = "",
+    password = "";
 
-  const [name, setName] = useState<string>('');
-  const [repository, setRepository] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
-  useEffect(() => {
-    RepositoryService.updateRepository();
-  }, []);
-
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await RepositoryService.getRepository();
-      setDatas(res.data);
-    };
-    fetch();
-  }, []);
+  const datas = await HelmRepository.list();
 
   const handleClickUrl = (url: string) => {
     window.open(url);
@@ -46,28 +31,15 @@ const RepositoryPage = () => {
 
   const shortCuts = [
     {
-      title: 'bitnami',
-      url: 'https://charts.bitnami.com/bitnami',
+      title: "bitnami",
+      url: "https://charts.bitnami.com/bitnami",
     },
   ];
 
   return (
     <>
       {shortCuts.map((shortcut) => {
-        return (
-          <Button
-            key={shortcut.title}
-            onClick={() =>
-              RepositoryService.addRepository({
-                name: shortcut.title,
-                url: shortcut.url,
-              })
-            }
-          >
-            {' '}
-            {shortcut.title}{' '}
-          </Button>
-        );
+        return <Button key={shortcut.title}> {shortcut.title} </Button>;
       })}
       <Card className="w-full">
         <CardHeader>
@@ -77,47 +49,16 @@ const RepositoryPage = () => {
           <CardDescription> Helm Repository URL </CardDescription>
         </CardHeader>
         <CardContent>
-          <Input
-            className="mb-2"
-            value={name}
-            placeholder="name"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Input
-            className="mb-2"
-            value={repository}
-            placeholder="repository"
-            onChange={(e) => setRepository(e.target.value)}
-          />
+          <Input className="mb-2" value={name} placeholder="name" />
+          <Input className="mb-2" value={repository} placeholder="repository" />
 
           <div className="flex items-center mb-2">
-            <Input
-              className="mr-2"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Input className="mr-2" placeholder="Username" value={username} />
+            <Input type="password" placeholder="Password" value={password} />
           </div>
 
           <div className="flex justify-end">
-            <Button
-              onClick={() =>
-                RepositoryService.addRepository({
-                  name,
-                  url: repository,
-                  username,
-                  password,
-                })
-              }
-            >
-              Create
-            </Button>
+            <Button>Create</Button>
           </div>
         </CardContent>
       </Card>
@@ -149,15 +90,7 @@ const RepositoryPage = () => {
 
                 <CardFooter>
                   <div className="flex-1" />
-                  <Button
-                    color="error"
-                    onClick={() =>
-                      RepositoryService.remoteRepository(data.name)
-                    }
-                  >
-                    {' '}
-                    삭제{' '}
-                  </Button>
+                  <Button color="error"> 삭제 </Button>
                 </CardFooter>
               </AccordionItem>
             </Accordion>

@@ -1,10 +1,19 @@
-"use client";
-import { useParams } from "next/navigation";
+import { HelmRepository } from "@/app/datas/helm.repository";
 
-const InstallAppPage = () => {
-  const { name, app, version } = useParams();
+interface Props {
+  params: {
+    name: string;
+    app: string;
+    version: string;
+  };
+}
 
-  console.log(name, app, version);
-  return <div>page</div>;
+const InstallAppPage = async ({ params }: Props) => {
+  const { name, app, version } = params;
+
+  const list = await HelmRepository.list();
+
+  return <div>{`Installing ${app} (${version}) from ${name}`}</div>;
 };
+
 export default InstallAppPage;

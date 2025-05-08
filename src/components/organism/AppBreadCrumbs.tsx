@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { Slash } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import { useMemo } from 'react';
+import { Slash } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from '../ui/breadcrumb';
+} from "../ui/breadcrumb";
 
 export const AppBreadCrumbs = () => {
   const pathname = usePathname();
 
   const histories = useMemo(() => {
     const segments = pathname
-      .split('/')
+      .split("/")
       .filter(Boolean)
       .map((segment) => decodeURIComponent(segment.toLowerCase()));
 
-    return ['home', ...segments];
+    return ["home", ...segments];
   }, [pathname]);
 
   const buildHref = (index: number) => {
-    if (index === 0) return '/';
-    const path = '/' + histories.slice(1, index + 1).join('/');
+    if (index === 0) return "/";
+    const path = "/" + histories.slice(1, index + 1).join("/");
     return path;
   };
 

@@ -1,28 +1,22 @@
-'use client';
+import { AppRepository } from "@/app/datas/app.repository";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import AppService from '@/services/apps.service';
-import yaml from 'js-yaml';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+} from "@/components/ui/card";
+import yaml from "js-yaml";
 
-const ViewYaml = () => {
-  const params = useParams();
+interface Props {
+  params: {
+    name: string;
+    namespace: string;
+  };
+}
+const ViewYaml = async ({ params }: Props) => {
   const { namespace, name } = params;
 
-  const [data, setData] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await AppService.getInstalledApp(name, namespace);
-      setData(res.data);
-    };
-    fetch();
-  }, []);
+  const data = await AppRepository.getInstalledApp(name, namespace);
   return (
     <>
       <Card>
@@ -30,7 +24,7 @@ const ViewYaml = () => {
           <CardTitle>
             <div className="flex justify-between">
               <span>
-                {' '}
+                {" "}
                 {data.name} ( {data.chart} )
               </span>
 

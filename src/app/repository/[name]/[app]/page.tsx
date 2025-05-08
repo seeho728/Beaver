@@ -1,26 +1,18 @@
-"use client";
+import { HelmRepository } from "@/app/datas/helm.repository";
 import { Button } from "@/components/ui/button";
 import { HelmAppVersion } from "@/interfaces";
-import RepositoryService from "@/services/repository.service";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
-const RepositoryAppPage = () => {
-  const { name, app } = useParams();
+interface Props {
+  params: {
+    name: string;
+    app: string;
+  };
+}
+const RepositoryAppPage = async ({ params }: Props) => {
+  const { name, app } = params;
 
-  const [datas, setDatas] = useState<HelmAppVersion[]>([]);
-
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await RepositoryService.listVersions(
-        name as string,
-        app as string
-      );
-      setDatas(res.data);
-    };
-    fetch();
-  }, []);
+  const datas = await HelmRepository.listVersions(name, app);
 
   return (
     <>
