@@ -42,6 +42,18 @@ export class AppRepository {
     return installedApp;
   }
 
+  static async updateInstalledApp(
+    name: string,
+    namespace: string,
+    values: string
+  ): Promise<void> {
+    // @TODO: change bitnami/postgresql
+    await execAsync(
+      `helm upgrade ${name} -n ${namespace} bitnami/postgresql -f - <<EOF\n${values}\nEOF`
+    );
+    return;
+  }
+
   static async deleteApp(name: string, namespace: string): Promise<void> {
     await execAsync(`helm uninstall ${name} -n ${namespace} --no-hooks`);
     return;

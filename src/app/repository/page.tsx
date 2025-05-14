@@ -1,3 +1,4 @@
+import { AddRepositoryCard } from "@/components/organism/AddRepositoryCard/AddRepositoryCard";
 import {
   Accordion,
   AccordionContent,
@@ -8,21 +9,15 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { HelmRepository } from "../datas/helm.repository";
 import { Charts } from "./charts";
+import { RemoveRepositoryButton } from "./RemoveRepositoryButton";
 
 const RepositoryPage = async () => {
-  const name = "",
-    repository = "",
-    username = "",
-    password = "";
-
   const datas = await HelmRepository.list();
 
   const handleClickUrl = (url: string) => {
@@ -41,27 +36,9 @@ const RepositoryPage = async () => {
       {shortCuts.map((shortcut) => {
         return <Button key={shortcut.title}> {shortcut.title} </Button>;
       })}
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>
-            <span> Add Repository </span>
-          </CardTitle>
-          <CardDescription> Helm Repository URL </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Input className="mb-2" value={name} placeholder="name" />
-          <Input className="mb-2" value={repository} placeholder="repository" />
 
-          <div className="flex items-center mb-2">
-            <Input className="mr-2" placeholder="Username" value={username} />
-            <Input type="password" placeholder="Password" value={password} />
-          </div>
+      <AddRepositoryCard />
 
-          <div className="flex justify-end">
-            <Button>Create</Button>
-          </div>
-        </CardContent>
-      </Card>
       {datas.map((data, i) => {
         return (
           <Card key={i} className="w-full mt-2">
@@ -90,7 +67,7 @@ const RepositoryPage = async () => {
 
                 <CardFooter>
                   <div className="flex-1" />
-                  <Button color="error"> 삭제 </Button>
+                  <RemoveRepositoryButton name={data.name} />
                 </CardFooter>
               </AccordionItem>
             </Accordion>

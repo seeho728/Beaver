@@ -41,10 +41,12 @@ const Apps = async () => {
             </CardHeader>
 
             <CardFooter>
-              <Link href={`/apps/${data.namespace}/${data.name}`}>
+              <Link
+                href={`/apps/${data.namespace}/${data.name}`}
+                className="mr-2"
+              >
                 <Button> 조회 </Button>
               </Link>
-              <Button className="mx-2"> 수정 </Button>
               <Button> 삭제 </Button>
             </CardFooter>
           </Card>

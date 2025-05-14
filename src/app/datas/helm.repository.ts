@@ -25,13 +25,18 @@ export class HelmRepository {
   }
 
   static async list() {
-    const { stdout } = await execAsync("helm repo list");
-    const lines = stdout.trim().split("\n").slice(1);
+    try {
+      const { stdout } = await execAsync("helm repo list");
+      const lines = stdout.trim().split("\n").slice(1);
+      console.log(lines);
 
-    return lines.map((line) => {
-      const [name, url] = line.trim().split(/\s+/);
-      return { name, url };
-    });
+      return lines.map((line) => {
+        const [name, url] = line.trim().split(/\s+/);
+        return { name, url };
+      });
+    } catch (error: any) {
+      return [];
+    }
   }
 
   static async listCharts(name: string) {

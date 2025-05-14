@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import yaml from "js-yaml";
+import { ViewYamlClient } from "./ViewYamlClient";
 
 interface Props {
   params: {
@@ -14,9 +14,10 @@ interface Props {
   };
 }
 const ViewYaml = async ({ params }: Props) => {
-  const { namespace, name } = params;
+  const { namespace, name } = await params;
 
   const data = await AppRepository.getInstalledApp(name, namespace);
+
   return (
     <>
       <Card>
@@ -36,7 +37,8 @@ const ViewYaml = async ({ params }: Props) => {
           </CardDescription>
         </CardHeader>
       </Card>
-      <pre>{yaml.dump(yaml.load(data?.value))}</pre>
+
+      <ViewYamlClient value={data.value} name={name} namespace={namespace} />
     </>
   );
 };
