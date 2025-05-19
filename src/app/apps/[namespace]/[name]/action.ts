@@ -9,7 +9,6 @@ export async function updateApp(formData: FormData) {
   const namespace = formData.get("namespace") as string;
   const values = formData.get("value") as string;
 
-  console.log("@@@@");
   await AppRepository.updateInstalledApp(name, namespace, values);
   revalidatePath("/apps"); // 캐시 갱신
 }
