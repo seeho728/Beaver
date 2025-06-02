@@ -9,16 +9,13 @@ import {
 import { InstalledApp } from "@/interfaces";
 import Link from "next/link";
 import { AppRepository } from "../datas/app.repository";
+import { KubernetesRepository } from "../datas/kubernetes.repository";
 
 const Apps = async () => {
-  const datas = await AppRepository.list();
+  const namespaces = await KubernetesRepository.getInstance().getNamespaces();
 
-  const handleDelete = (name: string, namespace: string) => {
-    if (!confirm(`정말 삭제하시겠습니까?`)) {
-      return;
-    }
-    AppRepository.deleteApp(name, namespace);
-  };
+  const datas = await AppRepository.list(namespaces[0]);
+
   return (
     <>
       {datas.map((data: InstalledApp, i) => {

@@ -4,8 +4,8 @@ import { InstalledApp } from "./app.entity";
 const execAsync = promisify(exec);
 
 export class AppRepository {
-  static async list(): Promise<InstalledApp[]> {
-    const { stdout } = await execAsync("helm list -A -o json");
+  static async list(namespace = "default"): Promise<InstalledApp[]> {
+    const { stdout } = await execAsync(`helm list -n ${namespace} -o json`);
     return JSON.parse(stdout) as InstalledApp[];
   }
 
