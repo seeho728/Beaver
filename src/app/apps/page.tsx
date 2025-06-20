@@ -17,6 +17,8 @@ interface SearchParams {
   searchParams: { namespace?: string };
 }
 
+export const dynamic = "force-dynamic";
+
 const Apps = async ({ searchParams }: SearchParams) => {
   const namespaces = await KubernetesRepository.getInstance().getNamespaces();
   const selectedNamespace = searchParams.namespace || namespaces[0];
