@@ -1,4 +1,5 @@
 import { HelmRepository } from "@/app/datas/helm.repository";
+import { ViewYamlClient } from "./ViewYamlClient";
 
 interface Props {
   params: {
@@ -11,9 +12,11 @@ interface Props {
 const InstallAppPage = async ({ params }: Props) => {
   const { name, app, version } = params;
 
-  const list = await HelmRepository.list();
+  const values = await HelmRepository.getVersion(name, app, version);
 
-  return <div>{`Installing ${app} (${version}) from ${name}`}</div>;
+  return (
+    <ViewYamlClient chart={`${name}/${app}`} version={version} value={values} />
+  );
 };
 
 export default InstallAppPage;

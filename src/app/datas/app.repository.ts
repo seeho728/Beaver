@@ -1,6 +1,10 @@
 import { exec } from "child_process";
 import { promisify } from "util";
 import { InstalledApp } from "./app.entity";
+
+import { promises as fs } from "fs";
+import { tmpdir } from "os";
+import { join } from "path";
 const execAsync = promisify(exec);
 
 export class AppRepository {
@@ -48,6 +52,14 @@ export class AppRepository {
     values: string
   ): Promise<void> {
     // @TODO: change bitnami/postgresql
+    const tempFile = join(tmpdir(), `${name}-values.yaml`);
+    await fs.writeFile(tempFile, values, "utf8");
+
+    await execAsync(
+      `helm upgrade ${name} bitnami/postgresql -n ${namespace} -f ${tempFile}`
+    );
+
+    await fs.unlink(tempFile); // cleanup
     await execAsync(
       `helm upgrade ${name} -n ${namespace} bitnami/postgresql -f - <<EOF\n${values}\nEOF`
     );

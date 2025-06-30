@@ -52,4 +52,12 @@ export class HelmRepository {
 
     return JSON.parse(stdout).filter((item) => item.name === `${name}/${app}`);
   }
+
+  static async getVersion(repository: string, app: string, version: string) {
+    const { stdout } = await execAsync(
+      `helm show values ${repository}/${app} --version ${version}`
+    );
+
+    return stdout;
+  }
 }
