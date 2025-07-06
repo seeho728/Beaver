@@ -1,11 +1,11 @@
 import React from "react";
-import { HelmRepository } from "../datas/helm.repository";
+import { HelmService } from "../../services/helm.services";
 
 interface ChartsProps {
   name: string;
 }
 export const Charts: React.FC<ChartsProps> = async ({ name }) => {
-  const data = await HelmRepository.listCharts(name);
+  const data = await HelmService.listCharts(name);
 
   return (
     <>

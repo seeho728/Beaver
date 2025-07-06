@@ -1,6 +1,6 @@
-import { HelmRepository } from "@/app/datas/helm.repository";
 import { Button } from "@/components/ui/button";
 import { HelmAppVersion } from "@/interfaces";
+import { HelmService } from "@/services/helm.services";
 import Link from "next/link";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 const RepositoryAppPage = async ({ params }: Props) => {
   const { name, app } = params;
 
-  const datas = await HelmRepository.listVersions(name, app);
+  const datas = await HelmService.listVersions(name, app);
 
   return (
     <>

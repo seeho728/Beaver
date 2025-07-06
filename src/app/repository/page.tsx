@@ -13,12 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { HelmRepository } from "../datas/helm.repository";
+import { HelmService } from "../../services/helm.services";
 import { Charts } from "./charts";
 import { RemoveRepositoryButton } from "./RemoveRepositoryButton";
 
 const RepositoryPage = async () => {
-  const datas = await HelmRepository.list();
+  const datas = await HelmService.list();
 
   const handleClickUrl = (url: string) => {
     window.open(url);

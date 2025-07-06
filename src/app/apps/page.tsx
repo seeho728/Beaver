@@ -9,9 +9,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { InstalledApp } from "@/interfaces";
+import { AppService } from "@/services/app.services";
 import Link from "next/link";
-import { AppRepository } from "../datas/app.repository";
-import { KubernetesRepository } from "../datas/kubernetes.repository";
+import { KubernetesService } from "../../services/kubernetes.services";
 
 interface SearchParams {
   searchParams: { namespace?: string };
@@ -20,9 +20,9 @@ interface SearchParams {
 export const dynamic = "force-dynamic";
 
 const Apps = async ({ searchParams }: SearchParams) => {
-  const namespaces = await KubernetesRepository.getInstance().getNamespaces();
+  const namespaces = await KubernetesService.getInstance().getNamespaces();
   const selectedNamespace = searchParams.namespace || namespaces[0];
-  const datas = await AppRepository.list(selectedNamespace);
+  const datas = await AppService.list(selectedNamespace);
 
   return (
     <>

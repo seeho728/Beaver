@@ -1,13 +1,13 @@
 import { exec } from "child_process";
 import { promisify } from "util";
-import { InstalledApp } from "./app.entity";
 
+import { InstalledApp } from "@/interfaces";
 import { promises as fs } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 const execAsync = promisify(exec);
 
-export class AppRepository {
+export class AppService {
   static async list(namespace = "default"): Promise<InstalledApp[]> {
     const { stdout } = await execAsync(`helm list -n ${namespace} -o json`);
     return JSON.parse(stdout) as InstalledApp[];
@@ -34,12 +34,12 @@ export class AppRepository {
     name: string,
     namespace: string
   ): Promise<InstalledApp> {
-    const installedApp: InstalledApp = await AppRepository.getMetadata(
+    const installedApp: InstalledApp = await AppService.getMetadata(
       name,
       namespace
     );
 
-    const values = await AppRepository.getValue(name, namespace);
+    const values = await AppService.getValue(name, namespace);
 
     installedApp.value = values;
 

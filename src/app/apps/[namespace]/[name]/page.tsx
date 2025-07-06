@@ -1,10 +1,10 @@
-import { AppRepository } from "@/app/datas/app.repository";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AppService } from "@/services/app.services";
 import { ViewYamlClient } from "./ViewYamlClient";
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 const ViewYaml = async ({ params }: Props) => {
   const { namespace, name } = await params;
 
-  const data = await AppRepository.getInstalledApp(name, namespace);
+  const data = await AppService.getInstalledApp(name, namespace);
 
   return (
     <>

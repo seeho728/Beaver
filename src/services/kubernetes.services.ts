@@ -1,7 +1,7 @@
 import { CoreV1Api, KubeConfig, V1Namespace } from "@kubernetes/client-node";
 
-export class KubernetesRepository {
-  private static instance: KubernetesRepository;
+export class KubernetesService {
+  private static instance: KubernetesService;
   private k8sApi: CoreV1Api;
 
   private constructor() {
@@ -10,11 +10,11 @@ export class KubernetesRepository {
     this.k8sApi = kc.makeApiClient(CoreV1Api);
   }
 
-  static getInstance(): KubernetesRepository {
-    if (!KubernetesRepository.instance) {
-      KubernetesRepository.instance = new KubernetesRepository();
+  static getInstance(): KubernetesService {
+    if (!KubernetesService.instance) {
+      KubernetesService.instance = new KubernetesService();
     }
-    return KubernetesRepository.instance;
+    return KubernetesService.instance;
   }
 
   async getNamespaces(): Promise<string[]> {

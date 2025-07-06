@@ -4,7 +4,7 @@ import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
-export class HelmRepository {
+export class HelmService {
   static async add(repository: Repository): Promise<void> {
     let cmd = `helm repo add ${repository.name} ${repository.url}`;
 
